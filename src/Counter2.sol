@@ -3,12 +3,8 @@ pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
-contract Counter is Initializable {
+contract Counter2 is Initializable {
     uint256 public number;
-
-    // function constructor() public initializer {
-    //     number = 100;
-    // }
 
     // why? short: to initialize proxy state
     // because constructor() sets the state variables
@@ -22,7 +18,14 @@ contract Counter is Initializable {
         number = newNumber;
     }
 
+    // updated to increment two times
     function increment() public {
         number++;
+        number++;
+    }
+
+    // added this new function
+    function decrement() public {
+        number--;
     }
 }
