@@ -1,3 +1,28 @@
+## Steps to resproduce:
+
+1. forge build
+
+2. forge test
+
+3. update deployment script to deploy
+```
+vm.startBroadcast();
+Counter counter = new Counter();
+console2.log(address(counter));
+vm.stopBroadcast();
+```
+
+4. setup .env
+GOERLI_RPC_URL=<your_rpc_url>
+PRIVATE_KEY=<your_pvt_key_with_eth>
+ETHERSCAN_API_KEY=<your_etherscan_api_key>
+
+4. run deployment script by running 
+forge script script/Counter.s.sol --rpc-url $GOERLI_RPC_URL --private-key $PRIVATE_KEY --broadcast --verify
+
+
+
+
 ## Foundry
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
@@ -46,9 +71,12 @@ $ anvil
 ```
 
 ### Deploy
+```shell
+$ source .env
+```
 
 ```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+$ forge script script/Counter.s.sol:CounterScript --rpc-url $GOERLI_RPC_URL --private-key $PRIVATE_KEY --broadcast --verify
 ```
 
 ### Cast
