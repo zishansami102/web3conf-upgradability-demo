@@ -1,18 +1,38 @@
+## Installation
+
+1. Get [Foundryup](https://book.getfoundry.sh/getting-started/installation) installed
+
+
+2. Follow the first steps [from here](https://book.getfoundry.sh/getting-started/first-steps) to setup the initial direcotry
+
 ## Steps to resproduce:
 
 1. forge build
 
 2. forge test
 
-3. modify contract to have a constructor:
+3. install oz upgradable and setup remappings.txt
+```shell
+forge install Openzeppelin/openzeppelin-contracts-upgradeable
+forge install Openzeppelin/openzeppelin-contracts
 ```
-constructor() public {
+
+4. setup `remappings.txt`:
+```
+@openzeppelin/=lib/openzeppelin-contracts-upgradeable/
+@openzeppelin-norm=lib/openzeppelin-contracts/
+```
+
+5. modify contract to have a constructor:
+```
+constructor() {
     number = 100;
 }
 ```
-4. modify test script and run forge test again.
 
-5. update deployment script to deploy
+6. modify test script and run forge test again.
+
+7. update deployment script
 ```
 vm.startBroadcast();
 Counter counter = new Counter();
@@ -20,33 +40,23 @@ console2.log(address(counter));
 vm.stopBroadcast();
 ```
 
-6. setup .env, and source it.
+8. setup .env, and source it.
 ```
 GOERLI_RPC_URL=<your_rpc_url>
 PRIVATE_KEY=<your_pvt_key_with_eth>
 ETHERSCAN_API_KEY=<your_etherscan_api_key>
 ```
 
-7. run deployment script by running 
+9. run deployment script by running 
 ```shell
-$ forge script script/Counter.s.sol --rpc-url $GOERLI_RPC_URL --private-key $PRIVATE_KEY --broadcast --verify
-```
-
-
-8. install oz upgradable and setup remappings.txt
-```
-forge install Openzeppelin/openzeppelin-contracts-upgradeable
-forge install Openzeppelin/openzeppelin-contracts
-```
-
-
-9. setup `remappings.txt`:
-```
-@openzeppelin/=lib/openzeppelin-contracts-upgradeable/
-@openzeppelin-norm=lib/openzeppelin-contracts/
+forge script script/Counter.s.sol --rpc-url $GOERLI_RPC_URL --private-key $PRIVATE_KEY --broadcast --verify
 ```
 
 10. inherit `Initializable`, and replace the constructor() with `initialize()` function:
+```
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
+```
+
 ```
 function initialize() public initializer {
     number = 100;
