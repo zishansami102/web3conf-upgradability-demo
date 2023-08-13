@@ -19,9 +19,9 @@ contract CounterUpgradeScript is Script {
     function run() public {
         vm.startBroadcast();
         
-        Counter2 counterImplementation2 = new Counter2();
+        Counter2 newImplementation = new Counter2();
 
-        ourProxyAdmin.upgrade(ourProxy, address(counterImplementation2));
+        ourProxyAdmin.upgrade(ourProxy, address(newImplementation));
 
         vm.stopBroadcast();
     }
